@@ -1,6 +1,6 @@
 #!/bin/bash
 # Esse script é usado para configurar o sistema.
-source assets/functions.sh
+source lib/functions.sh
 
 # Zerando o arquivo de log de erros
 : > /tmp/error.log

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Esse script é usado para configurar o GitHub.
-source assets/functions.sh
+source lib/functions.sh
 
 # Variáveis de configuração do GitHub
 USERNAME="Moises Andrade"
