@@ -80,12 +80,13 @@ end
 # ---------------------------------------------------------------------------
 # Aliases — gerais
 # ---------------------------------------------------------------------------
+alias cat bat
 alias vi  nvim
+alias cls clear
 alias ai  aichat
 alias py  python
-alias cls clear
-alias cat bat
-alias ls  'eza --color=always --long --git --icons=always --no-time --no-user --no-filesize --no-permissions'
+alias ag  antigravity
+alias ls 'eza --color=always --long --git --icons=always --no-time --no-user --no-filesize --no-permissions'
 
 # ---------------------------------------------------------------------------
 # Aliases — Windows (WSL)
