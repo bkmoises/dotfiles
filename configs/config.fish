@@ -13,7 +13,12 @@ end
 # Variáveis de ambiente
 # ---------------------------------------------------------------------------
 set -x EDITOR nvim
-# set -x JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64
+set -x SSH_AGENT_PID (ssh-agent -c)
+set -x JAVA /usr/lib/jvm/java-17-openjdk-amd64
+set -x JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64
+set -Ux PYENV_ROOT $HOME/.pyenv
+set -Ux fish_user_paths $PYENV_ROOT/bin $fish_user_paths
+set -Ux ZED_ALLOW_EMULATED_GPU 1
 
 # ---------------------------------------------------------------------------
 # FZF
@@ -34,11 +39,16 @@ set -x FZF_CTRL_T_OPTS "
 # ---------------------------------------------------------------------------
 # PATH
 # ---------------------------------------------------------------------------
-# fish_add_path $HOME/.local/bin
-# fish_add_path $HOME/.cargo/bin
-# fish_add_path /usr/bin/lua
-# fish_add_path /usr/bin/luarocks
-# fish_add_path $JAVA_HOME/bin
+fish_add_path $HOME/.local/bin
+fish_add_path $HOME/.cargo/bin
+fish_add_path $HOME/.profile
+fish_add_path $HOME/anaconda3/bin
+fish_add_path $HOME/.local/bin/claude
+fish_add_path $HOME/.local/bin/copilot
+fish_add_path $JAVA
+fish_add_path $JAVA_HOME/bin
+fish_add_path /usr/bin/lua
+fish_add_path /usr/bin/luarocks
 
 # ---------------------------------------------------------------------------
 # Funções
@@ -59,6 +69,14 @@ function gohere
     xdg-open .
 end
 
+# Inicializar serviço SSH
+set -q SSH_AUTH_SOCK; or begin
+    set agentInfo (ssh-agent -c)
+    eval (echo $agentInfo | grep SSH_AUTH_SOCK)
+    eval (echo $agentInfo | grep SSH_AGENT_PID)
+    ssh-add ~/.ssh/id_rsa_glpg > /dev/null ^ /dev/null
+end
+
 # ---------------------------------------------------------------------------
 # Aliases — gerais
 # ---------------------------------------------------------------------------
@@ -72,27 +90,24 @@ alias ls  'eza --color=always --long --git --icons=always --no-time --no-user --
 # ---------------------------------------------------------------------------
 # Aliases — Windows (WSL)
 # ---------------------------------------------------------------------------
-# alias ws 'cmd.exe /c start'
+alias ws    'cmd.exe /c start'
+alias excel '/mnt/c/Program\ Files/Microsoft\ Office/root/Office16/EXCEL.EXE'
 
 # ---------------------------------------------------------------------------
 # Aliases — macOS
 # ---------------------------------------------------------------------------
-alias ag 'open -a Antigravity .'
+# alias ag 'open -a Antigravity .'
 
 # ---------------------------------------------------------------------------
 # Inicialização de aplicativos
 # ---------------------------------------------------------------------------
-starship init fish | source
+pyenv init - | source
+pyenv init --path | source
 zoxide init fish | source
+starship init fish | source
 fzf --fish | source
 
 # ---------------------------------------------------------------------------
-# Variáveis temporárias / projeto (descomente conforme necessário)
+# Variáveis temporárias / Windows
 # ---------------------------------------------------------------------------
-# set -x src         /home/moisesreis/Work/unimedfesp-datalake/src/unimedfesp_datalake_apps/pipelines/datalake/
-# set -x ddl         /home/moisesreis/Work/unimedfesp-datalake/ddl/datalake/table/
-# set -x bronze      /home/moisesreis/Work/unimedfesp-datalake/src/unimedfesp_datalake_apps/pipelines/datalake/staged
-# set -x silver      /home/moisesreis/Work/unimedfesp-datalake/src/unimedfesp_datalake_apps/pipelines/datalake/curated/cur_progress_pub/
-# set -x gold        /home/moisesreis/Work/unimedfesp-datalake/src/unimedfesp_datalake_apps/pipelines/datalake/trusted/tru_datalake_fesp_pub/
-# set -x download    /mnt/c/Users/brandm10/Downloads
-# set -x screenshots '/mnt/c/Users/brandm10/OneDrive - Ingram Micro/Pictures/Screenshots'
+set -x download /mnt/c/Users/MoisesAndrade/Downloads
